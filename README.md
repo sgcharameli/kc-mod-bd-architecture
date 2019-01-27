@@ -48,6 +48,8 @@ flume1.channels.hdfs-channel-1.transactionCapacity = 1000
 flume-ng agent -n flume1 -c conf -f kafka-2-hadoop.conf - Dflume.root.logger=INFO,console
 '''
 
+![alt text](https://raw.githubusercontent.com/sgcharameli/kc-mod-bd-architecture/master/images/scraping-kafking-fluming-hdfsing.png)
+
 - Se ha optado por configurar el cluster de hadoop fuera del GCP sencillamente por reaprovechar unas máquinas que habían quedado en desuso. Si esto no hubiese sido así, se hubiese montado un dataproc en GCP.
 - Después del procesamiento de la información con hadoop, se insertará en un índice de elasticsearch la información generada para su posterior consulta en un cuadro de mando de kibana, ambos alojados en GCP.
 
@@ -71,7 +73,8 @@ Se ha optado por montar un cluster hadoop con docker compose. Se adjuntan ficher
 - Configurar en todas las instancias los ficheros core-site.xml y yarn-site.xml con el id del contenedor del master.
 - Configurar únicamente en la instancia master los ids de los contenedores esclavos.
 
-![alt text](https://raw.githubusercontent.com/username/projectname/branch/path/to/img.png)
+![alt text](https://raw.githubusercontent.com/sgcharameli/kc-mod-bd-architecture/master/images/Datanode-Information.png)
+![alt text](https://raw.githubusercontent.com/sgcharameli/kc-mod-bd-architecture/master/images/Browse-Directory.png)
 
 # Arranque
 
@@ -84,8 +87,13 @@ docker-compose stop
 docker-compose start
 ```
 
+Hay veces que al iniciar el cluster, hay que corregir en el core-site.xml del esclavo el id del contenedor esclavo, a veces lo sustituye por otro.
+
 
 ## Sprint 4
 
+Como resultado del paso 2-3 se generan varios ficheros con los datos. Por ello se ha optado por usar multifilewc, indicando el directorio donde están todos los ficheros cargados.
 
-## Sprint 5
+![alt text](https://raw.githubusercontent.com/sgcharameli/kc-mod-bd-architecture/master/images/hadoop-cluster-mapreduce.png)
+
+Se ha subido el fichero resultante al directorio result-final
